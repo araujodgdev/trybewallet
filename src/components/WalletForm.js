@@ -21,7 +21,7 @@ class WalletForm extends Component {
           </label>
           <label htmlFor="value-input">
             Valor
-            <input type="number" data-testid="value-input" />
+            <input min={ 0 } type="number" data-testid="value-input" />
           </label>
           <label htmlFor="currency-input">
             Moeda
