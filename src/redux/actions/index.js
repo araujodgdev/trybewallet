@@ -16,7 +16,7 @@ const requestCurrencies = () => ({
 
 const saveCurrencies = (currencies) => ({
   type: SAVE_CURRENCIES,
-  payload: currencies,
+  payload: Object.keys(currencies),
 });
 
 export function fetchCurrencies() {
