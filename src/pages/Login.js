@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addEmail } from '../redux/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,24 +24,28 @@ class Login extends React.Component {
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    }, () => {
-      const { email, password } = this.state;
-      if (this.validateFields(email, password)) {
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        const { email, password } = this.state;
+        if (this.validateFields(email, password)) {
+          this.setState({
+            disabled: false,
+          });
+          return;
+        }
         this.setState({
-          disabled: false,
+          disabled: true,
         });
-        return;
-      }
-      this.setState({
-        disabled: true,
-      });
-    });
+      },
+    );
   };
 
   render() {
-    document.title = 'TrybeWallet - Login';
+    document.title = 'Login';
+    const { dispatch, history } = this.props;
     const { disabled, email, password } = this.state;
     return (
       <div>
@@ -70,7 +77,15 @@ class Login extends React.Component {
                 minLength={ 6 }
               />
             </label>
-            <button disabled={ disabled } type="submit">
+            <button
+              disabled={ disabled }
+              onClick={ (e) => {
+                e.preventDefault();
+                dispatch(addEmail(email));
+                history.push('/carteira');
+              } }
+              type="button"
+            >
               Entrar
             </button>
           </div>
@@ -80,4 +95,11 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect()(Login);
