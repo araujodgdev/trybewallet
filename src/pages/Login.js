@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEmail } from '../redux/actions';
+import Title from '../components/Title';
 
 class Login extends React.Component {
   constructor(props) {
@@ -48,12 +49,9 @@ class Login extends React.Component {
     const { dispatch, history } = this.props;
     const { disabled, email, password } = this.state;
     return (
-      <div>
-        <form action="">
-          <h1>
-            Trybe
-            <span>Wallet</span>
-          </h1>
+      <div className="login-container">
+        <Title />
+        <form action="POST">
           <div>
             <label htmlFor="email">
               E-mail
