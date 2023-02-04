@@ -5,14 +5,25 @@ import Title from './Title';
 
 class Header extends Component {
   render() {
-    const { email, expanses, currency } = this.props;
+    const { email, expenses, currency } = this.props;
+    console.log(expenses);
+    const totalExpenses = expenses
+      .map(
+        (expense) => (
+          parseFloat(expense.value)
+           * parseFloat(expense.exchangeRates[expense.currency].ask)
+        ),
+      )
+      .reduce((acc, crr) => acc + crr, 0);
     return (
       <header>
         <Title />
-        <section className="expanses-container">
-          <p data-testid="total-field">
+        <section className="expenses-container">
+          <p>
             Total de Despesas:
-            {expanses}
+            <span data-testid="total-field">
+              {Number.parseFloat(totalExpenses).toFixed(2)}
+            </span>
             <span data-testid="header-currency-field">{currency}</span>
           </p>
         </section>
@@ -22,18 +33,18 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, wallet: { expenses } }) => ({
   email: user.email,
+  expenses,
 });
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
-  expanses: PropTypes.number,
+  expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   currency: PropTypes.string,
 };
 
 Header.defaultProps = {
-  expanses: 0,
   currency: 'BRL',
 };
 
