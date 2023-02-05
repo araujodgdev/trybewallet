@@ -3,6 +3,7 @@ export const ADD_EMAIL = 'ADD_EMAIL';
 export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
 export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const DEL_EXPENSE = 'DEL_EXPENSE';
 
 const CURRENCIES_API_URL = 'https://economia.awesomeapi.com.br/json/all';
 
@@ -23,6 +24,11 @@ const saveCurrencies = (currencies) => ({
 export const addExpense = (expense) => ({
   type: ADD_EXPENSE,
   payload: expense,
+});
+
+export const delExpense = (id) => ({
+  type: DEL_EXPENSE,
+  payload: parseFloat(id),
 });
 
 export function fetchCurrencies() {

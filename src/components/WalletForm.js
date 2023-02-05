@@ -7,12 +7,12 @@ const alimentacao = 'Alimentação';
 class WalletForm extends Component {
   state = {
     newExpense: {
-      id: 0,
       description: '',
+      value: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: alimentacao,
-      value: '',
+      id: 0,
     },
     exchangeRates: {},
   };
@@ -41,12 +41,12 @@ class WalletForm extends Component {
         dispatch(addExpense({ ...newExpense, exchangeRates }));
         this.setState((prevState) => ({
           newExpense: {
-            id: prevState.newExpense.id + 1,
             description: '',
+            value: '',
             currency: 'USD',
             method: 'Dinheiro',
             tag: alimentacao,
-            value: '',
+            id: prevState.newExpense.id + 1,
           },
         }));
       },
