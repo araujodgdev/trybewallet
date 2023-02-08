@@ -68,21 +68,23 @@ class WalletForm extends Component {
     return (
       <form action="POST">
         <section className="inputs-container">
-          <label htmlFor="description-input">
+          <label htmlFor="description">
             Descrição da despesa
             <input
               name="description"
+              id="description"
               value={ description }
               onChange={ (e) => this.handleChange(e) }
               type="text"
               data-testid="description-input"
             />
           </label>
-          <label htmlFor="value-input">
+          <label htmlFor="value">
             Valor
             <input
               onChange={ (e) => this.handleChange(e) }
               name="value"
+              id="value"
               min={ 0 }
               type="number"
               data-testid="value-input"
@@ -94,6 +96,7 @@ class WalletForm extends Component {
             <select
               onChange={ (e) => this.handleChange(e) }
               name="currency"
+              id="currency"
               value={ currency }
               data-testid="currency-input"
             >
@@ -109,6 +112,7 @@ class WalletForm extends Component {
             <select
               onChange={ (e) => this.handleChange(e) }
               name="method"
+              id="method"
               value={ method }
               data-testid="method-input"
             >
@@ -122,6 +126,7 @@ class WalletForm extends Component {
             <select
               onChange={ (e) => this.handleChange(e) }
               name="tag"
+              id="tag"
               value={ tag }
               data-testid="tag-input"
             >

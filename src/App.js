@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Login from './pages/Login';
 import Wallet from './pages/Wallet';
 
@@ -12,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect()(App);

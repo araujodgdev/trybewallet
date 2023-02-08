@@ -29,6 +29,9 @@ class Table extends Component {
         </td>
         <td>Real</td>
         <td>
+          <button data-testid="edit-btn" type="button">
+            edit
+          </button>
           <button
             onClick={ (e) => this.handleDelete(e, expensesData) }
             value={ expense.id }
