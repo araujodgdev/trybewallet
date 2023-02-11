@@ -6,7 +6,6 @@ import Title from './Title';
 class Header extends Component {
   render() {
     const { email, expenses, currency } = this.props;
-    console.log(expenses);
     const totalExpenses = expenses
       .map(
         (expense) => (

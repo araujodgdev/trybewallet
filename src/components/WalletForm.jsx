@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addExpense } from '../redux/actions';
+import { addExpense, editExpense } from '../redux/actions';
+import { generateExpenseObject } from '../services/wallet';
+import Table from './Table';
 
 const alimentacao = 'Alimentação';
 class WalletForm extends Component {
   state = {
+    editingExpense: false,
     newExpense: {
       description: '',
       value: '',
@@ -23,6 +26,34 @@ class WalletForm extends Component {
       newExpense: {
         ...newExpense,
         [name]: value,
+      },
+    });
+  };
+
+  handleEditBtn = (id) => {
+    this.setState({
+      newExpense: generateExpenseObject(id),
+      editingExpense: true,
+    });
+  };
+
+  handleEdit = (id) => {
+    const { newExpense, exchangeRates } = this.state;
+    const { expenses, dispatch } = this.props;
+    const indexToBeEdited = expenses.indexOf(
+      expenses.find((expense) => expense.id === id),
+    );
+    expenses.splice(indexToBeEdited, 1, { ...newExpense, exchangeRates });
+    dispatch(editExpense(expenses));
+    this.setState({
+      editingExpense: false,
+      newExpense: {
+        description: '',
+        value: '',
+        currency: 'USD',
+        method: 'Dinheiro',
+        tag: alimentacao,
+        id: expenses.length,
       },
     });
   };
@@ -57,6 +88,7 @@ class WalletForm extends Component {
     const { currencies } = this.props;
     const {
       newExpense: { description, currency, method, tag, value },
+      editingExpense,
     } = this.state;
     const expensesCategories = [
       alimentacao,
@@ -66,8 +98,8 @@ class WalletForm extends Component {
       'Saúde',
     ];
     return (
-      <form action="POST">
-        <section className="inputs-container">
+      <>
+        <form action="POST">
           <label htmlFor="description">
             Descrição da despesa
             <input
@@ -137,11 +169,19 @@ class WalletForm extends Component {
               ))}
             </select>
           </label>
-        </section>
-        <button type="button" onClick={ this.handleAddExpense }>
-          Adicionar despesa
-        </button>
-      </form>
+          <button
+            type="button"
+            onClick={ () => {
+              const { newExpense: { id } } = this.state;
+              if (editingExpense === true) return this.handleEdit(id);
+              return this.handleAddExpense();
+            } }
+          >
+            {editingExpense ? 'Editar despesa' : 'Adicionar despesa'}
+          </button>
+        </form>
+        <Table handleEditBtn={ this.handleEditBtn } />
+      </>
     );
   }
 }
@@ -154,6 +194,7 @@ const mapStateToProps = ({ wallet: { currencies, expenses } }) => ({
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string),
   dispatch: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 WalletForm.defaultProps = {

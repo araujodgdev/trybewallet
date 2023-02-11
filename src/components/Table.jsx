@@ -10,7 +10,7 @@ class Table extends Component {
   };
 
   render() {
-    const { expenses } = this.props;
+    const { expenses, handleEditBtn } = this.props;
     const expensesData = expenses.map((expense) => (
       <tr key={ expense.id }>
         <td>{expense.description}</td>
@@ -29,7 +29,12 @@ class Table extends Component {
         </td>
         <td>Real</td>
         <td>
-          <button data-testid="edit-btn" type="button">
+          <button
+            id={ expense.id }
+            onClick={ (e) => handleEditBtn(e.target.id) }
+            data-testid="edit-btn"
+            type="button"
+          >
             edit
           </button>
           <button
@@ -87,6 +92,7 @@ const mapStateToProps = ({ wallet: { expenses } }) => ({
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape({})),
   dispatch: PropTypes.func.isRequired,
+  handleEditBtn: PropTypes.func.isRequired,
 };
 
 Table.defaultProps = {
